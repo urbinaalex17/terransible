@@ -42,7 +42,7 @@ resource "aws_iam_role" "s3_access_role" {
        "Service": "ec2.amazonaws.com"
     },
     "Effect": "Allow",
-    "Side": ""
+    "Sid": ""
   }
   ]
 }
@@ -187,23 +187,23 @@ resource "aws_db_subnet_group" "wp_rds_subnetgroup" {
 #Subnet Associations
 
 resource "aws_route_table_association" "wp_public_01_assoc" {
-  subnet_id      = "aws_subnet.wp_public_subnet_01.id"
-  route_table_id = "aws_route_table.wp_public_rt.id"
+  subnet_id      = "${aws_subnet.wp_public_subnet_01.id}"
+  route_table_id = "${aws_route_table.wp_public_rt.id}"
 }
 
 resource "aws_route_table_association" "wp_public_02_assoc" {
-  subnet_id      = "aws_subnet.wp_public_subnet_02.id"
-  route_table_id = "aws_route_table.wp_public_rt.id"
+  subnet_id      = "${aws_subnet.wp_public_subnet_02.id}"
+  route_table_id = "${aws_route_table.wp_public_rt.id}"
 }
 
 resource "aws_route_table_association" "wp_private_03_assoc" {
-  subnet_id      = "aws_subnet.wp_private_subnet_03.id"
-  route_table_id = "aws_default_route_table.wp_private_rt.id"
+  subnet_id      = "${aws_subnet.wp_private_subnet_03.id}"
+  route_table_id = "${aws_default_route_table.wp_private_rt.id}"
 }
 
 resource "aws_route_table_association" "wp_private_04_assoc" {
-  subnet_id      = "aws_subnet.wp_private_subnet_04.id"
-  route_table_id = "aws_default_route_table.wp_private_rt.id"
+  subnet_id      = "${aws_subnet.wp_private_subnet_04.id}"
+  route_table_id = "${aws_default_route_table.wp_private_rt.id}"
 }
 
 #Security Groups
@@ -226,7 +226,7 @@ resource "aws_security_group" "wp_dev_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${var.localip}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -458,46 +458,46 @@ EOT
   }
 }
 
+
+
 #------- LAUNCH  CONFIGURATION -----------
 
 resource "aws_launch_configuration" "wp_asg_lc" {
-  name_prefix          = "wp_lc-"
-  image_id             = "${aws_ami_from_instance.aws_golden_ami.id}"
-  instance_type        = "${var.lb_instance_type}"
-  security_groups      = ["${aws_security_group.wp_private_sg.id}"]
+  name_prefix = "wp_lc-"
+  image_id = "${aws_ami_from_instance.aws_golden_ami.id}"
+  instance_type = "${var.lb_instance_type}"
+  security_groups = ["${aws_security_group.wp_private_sg.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.s3_access_profile.id}"
-  key_name             = "${aws_key_pair.wp_auth.id}"
-  user_data            = "${file("userdata")}"
+  key_name = "${aws_key_pair.wp_auth.id}"
+  user_data = "${file("userdata")}"
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
+
 #------- ASG -----------
 
 resource "aws_autoscaling_group" "wp_asg" {
-  name                      = "asg-${aws_launch_configuration.wp_asg_lc.id}"
-  max_size                  = "${var.asg_max}"
-  min_size                  = "${var.asg_min}"
+  name = "asg-${aws_launch_configuration.wp_asg_lc.id}"
+  max_size = "${var.asg_max}"
+  min_size = "${var.asg_min}"
   health_check_grace_period = "${var.asg_grace}"
-  health_check_type         = "${var.asg_hct}"
-  desired_capacity          = "${var.asg_cap}"
-  force_delete              = true
-  load_balancers            = ["${aws_elb.wp_elb.id}"]
-
+  health_check_type = "${var.asg_hct}"
+  desired_capacity = "${var.asg_cap}"
+  force_delete = true
+  load_balancers = ["${aws_elb.wp_elb.id}"]
+  
   vpc_zone_identifier = ["${aws_subnet.wp_private_subnet_03.id}",
-    "${aws_subnet.wp_private_subnet_04.id}",
-  ]
-
+                         "${aws_subnet.wp_private_subnet_04.id}"]
   launch_configuration = "${aws_launch_configuration.wp_asg_lc.name}"
-
   tags {
-    key                 = "Name"
-    value               = "wp_asg-instance"
+    key = "Name"
+    value = "wp_asg-instance"
     propagate_at_launch = true
   }
-
+  
   lifecycle {
     create_before_destroy = true
   }

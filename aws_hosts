@@ -1,0 +1,5 @@
+[dev]
+35.175.195.110
+[dev:vars]
+s3code=urbinaalex-35705
+domain=urbinaalex
