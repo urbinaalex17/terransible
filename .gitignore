@@ -1,4 +1,4 @@
 #locally ignore .terraform
 .terraform/*
 
-.*.
+.*.swp
