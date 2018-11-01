@@ -11,3 +11,4 @@ cidrs = {
   rds3       = "10.17.13.0/24"
 }
 localip = "52.53.157.247/32" 
+domain_name = "urbinaalex"
