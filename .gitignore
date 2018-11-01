@@ -1,2 +1,4 @@
 #locally ignore .terraform
 .terraform/*
+
+.*.

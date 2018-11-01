@@ -172,4 +172,39 @@ resource "aws_subnet" "wp_rds_subnet_03" {
 }
 
 
+#RDS Subnet Group
 
+resource "aws_db_subnet_group" "wp_rds_subnetgroup" {
+  name = "wp_rds_subnetgroup"
+  subnet_ids = ["${aws_subnet.wp_rds_subnet_01.id}",
+                "${aws_subnet.wp_rds_subnet_02.id}",
+                "${aws_subnet.wp_rds_subnet_03.id}" ]
+  tags {
+    Name = "wp_rds_sng"
+  }
+}
+
+#Subnet Associations
+
+resource "aws_route_table_association" "wp_public_01_assoc" {
+  subnet_id = "aws_subnet.wp_public_subnet_01.id"
+  route_table_id = "aws_route_table.wp_public_rt.id"
+}
+
+
+resource "aws_route_table_association" "wp_public_02_assoc" {
+  subnet_id = "aws_subnet.wp_public_subnet_02.id"
+  route_table_id = "aws_route_table.wp_public_rt.id"
+}
+
+
+resource "aws_route_table_association" "wp_private_03_assoc" {
+  subnet_id = "aws_subnet.wp_private_subnet_03.id"
+  route_table_id = "aws_default_route_table.wp_private_rt.id"
+}
+
+
+resource "aws_route_table_association" "wp_private_04_assoc" {
+  subnet_id = "aws_subnet.wp_private_subnet_04.id"
+  route_table_id = "aws_default_route_table.wp_private_rt.id"
+}
