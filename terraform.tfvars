@@ -18,3 +18,7 @@ db_instance_user = "urbinaalex"
 db_instance_pass = "urbinaalex_pass"
 db_instance_version = "8.0.11"
 
+elb_healthy_threshold = "2"
+elb_unhealthy_threshold = "2"
+elb_timeout = "3"
+elb_interval = "30"

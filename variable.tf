@@ -14,3 +14,9 @@ variable "db_instance_name" {}
 variable "db_instance_user" {}
 variable "db_instance_pass" {}
 variable "db_instance_version" {}
+
+variable "elb_healthy_threshold" {}
+variable "elb_unhealthy_threshold" {}
+variable "elb_timeout" {}
+variable "elb_interval" {}
+
