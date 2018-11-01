@@ -20,3 +20,7 @@ variable "elb_unhealthy_threshold" {}
 variable "elb_timeout" {}
 variable "elb_interval" {}
 
+variable "key_name" {}
+variable "public_key_path" {}
+variable "dev_instance_type" {}
+variable "dev_instance_ami" {}

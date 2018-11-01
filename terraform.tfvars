@@ -22,3 +22,9 @@ elb_healthy_threshold = "2"
 elb_unhealthy_threshold = "2"
 elb_timeout = "3"
 elb_interval = "30"
+
+
+key_name = "AWS-TA-KEYPAIR"
+public_key_path = "/root/.ssh/triplet.pub"
+dev_instance_type = "t2.micro"
+dev_instance_ami = "ami-b73b63a0"
