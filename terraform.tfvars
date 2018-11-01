@@ -28,3 +28,12 @@ key_name = "AWS-TA-KEYPAIR"
 public_key_path = "/root/.ssh/triplet.pub"
 dev_instance_type = "t2.micro"
 dev_instance_ami = "ami-b73b63a0"
+
+lb_instance_type = "t2.micro"
+asg_max = "2"
+asg_min = "1"
+asg_grace = "300"
+asg_hct = "EC2"
+asg_cap = "2"
+
+
