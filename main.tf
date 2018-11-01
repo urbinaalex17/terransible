@@ -86,4 +86,90 @@ resource "aws_default_route_table" "wp_private_rt" {
   }
 }
 
+#Subnets
+
+resource "aws_subnet" "wp_public_subnet_01" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["public_01"]}"
+  map_public_ip_on_launch = true
+  availability_zone = "${data.aws_availability_zones.available.names[0]}"
+  
+  tags {
+    Name = "wp_public_subnet_01"
+  }
+}
+
+
+resource "aws_subnet" "wp_public_subnet_02" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["public_02"]}"
+  map_public_ip_on_launch = true
+  availability_zone = "${data.aws_availability_zones.available.names[1]}"
+  
+  tags {
+    Name = "wp_public_subnet_02"
+  }
+}
+
+
+resource "aws_subnet" "wp_private_subnet_03" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["private_03"]}"
+  map_public_ip_on_launch = false
+  availability_zone = "${data.aws_availability_zones.available.names[0]}"
+  
+  tags {
+    Name = "wp_private_subnet_03"
+  }
+}
+
+
+resource "aws_subnet" "wp_private_subnet_04" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["private_04"]}"
+  map_public_ip_on_launch = false
+  availability_zone = "${data.aws_availability_zones.available.names[1]}"
+  
+  tags {
+    Name = "wp_private_subnet_04"
+  }
+}
+
+
+resource "aws_subnet" "wp_rds_subnet_01" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["rds1"]}"
+  map_public_ip_on_launch = false
+  availability_zone = "${data.aws_availability_zones.available.names[0]}"
+  
+  tags {
+    Name = "wp_rds_subnet_01"
+  }
+}
+
+
+resource "aws_subnet" "wp_rds_subnet_02" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["rds2"]}"
+  map_public_ip_on_launch = false
+  availability_zone = "${data.aws_availability_zones.available.names[1]}"
+  
+  tags {
+    Name = "wp_rds_subnet_02"
+  }
+}
+
+
+resource "aws_subnet" "wp_rds_subnet_03" {
+  vpc_id = "${aws_vpc.wp_vpc.id}"
+  cidr_block = "${var.cidrs["rds3"]}"
+  map_public_ip_on_launch = false
+  availability_zone = "${data.aws_availability_zones.available.names[2]}"
+  
+  tags {
+    Name = "wp_rds_subnet_03"
+  }
+}
+
+
 
